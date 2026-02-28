@@ -1,51 +1,84 @@
-App Sucateiro
+🥫 App Sucateiro
 
 Projeto Aberto para Colaboração
 
 Este repositório foi criado para desenvolver o módulo Latas Despertadoras do App Sucateiro.
 
-A ideia do produto está definida.  
-O desenvolvimento técnico está aberto para desenvolvedores que queiram contribuir.
+A visão do produto está definida.  
+O desenvolvimento técnico está aberto para desenvolvedores que desejam contribuir.
 
-O idealizador do projeto irá analisar e aprovar as propostas enviadas.
+O idealizador do projeto irá analisar e aprovar todas as propostas enviadas via Pull Request.
 
-Modelo do Projeto
+---
 
-Este é um projeto colaborativo e open source.
+📱 Estrutura Atual do Projeto
 
-No momento, não há remuneração prevista.
+O App Sucateiro atualmente funciona como uma PWA (Progressive Web App).
 
-O objetivo é construir a funcionalidade de forma colaborativa, gerar portfólio e criar algo relevante para a comunidade.
+Ele é acessado via navegador e pode ser instalado pelo Chrome como aplicativo.
 
-Objetivo do Projeto
+As calculadoras já estão implementadas no site oficial:
+
+https://www.sucateirocripto.com
+
+O módulo Despertadores marca a nova fase do projeto.
+
+Dependendo das necessidades técnicas (especialmente execução em segundo plano), o projeto poderá evoluir para aplicação mobile nativa no futuro.
+
+---
+
+🧩 Modelo do Projeto
+
+Este é um projeto:
+
+- Open source  
+- Colaborativo  
+- Voltado para construção de portfólio  
+- Sem remuneração neste momento  
+
+O objetivo é construir funcionalidades relevantes para a comunidade, mantendo organização e qualidade técnica.
+
+---
+
+🎯 Objetivo do Projeto
 
 Criar um aplicativo com foco em:
 
-- Educação financeira
-- Cultura Bitcoin
-- Experiência criativa utilizando a identidade da "Lata"
+- Educação financeira  
+- Cultura Bitcoin  
+- Experiência criativa baseada na identidade da "Lata"  
 
-O projeto valoriza criatividade, simplicidade e identidade visual moderna.
+O projeto valoriza:
 
-Tela Inicial (Home)
+- Criatividade  
+- Simplicidade  
+- Identidade visual moderna  
+- Navegação intuitiva  
+
+---
+
+📲 Estrutura do Aplicativo
+
+🏠 Tela Inicial (Home)
 
 Ao abrir o aplicativo, o usuário poderá escolher entre duas opções principais:
 
 1️⃣ Calculadoras  
 2️⃣ Despertadores  
 
-Regras gerais para a Home:
+Regras da Home:
 
-- Dois botões principais bem visíveis
-- Design moderno e minimalista
-- Identidade visual livre (criatividade é incentivada)
-- Pode incluir animações, ilustrações ou abordagem original
+- Dois botões principais bem visíveis  
+- Design moderno e minimalista  
+- Foco em mobile  
+- Identidade visual criativa baseada na Lata  
+- Navegação clara e intuitiva  
 
-A criatividade do desenvolvedor é bem-vinda, desde que a navegação seja clara e intuitiva.
+---
 
-Calculadoras
+🧮 Calculadoras
 
-As calculadoras já estão disponíveis e possuem identidade própria:
+As calculadoras já existem e possuem identidade própria:
 
 1️⃣ BitCan  
 Calculadora voltada para conversão e simulação em Bitcoin.
@@ -56,24 +89,29 @@ Calculadora com foco em comparação entre moedas fiduciárias e Bitcoin.
 Disponíveis em:
 https://www.sucateirocripto.com
 
-Essa área não faz parte do desenvolvimento atual.
+⚠️ Essa área não faz parte do desenvolvimento atual.
 
-Despertadores  
+---
+
+⏰ Despertadores  
 (Funcionalidade em desenvolvimento)
 
-Esta é a área aberta para criação.
+Esta é a área aberta para criação e colaboração.
 
-Dentro da área de Despertadores teremos:
+---
 
 1️⃣ Sunrise 21
 
-Despertador personalizado com voz.
+Despertador personalizado com voz que informa o preço atual do Bitcoin.
 
 O usuário poderá:
 
 - Definir um horário  
 - Inserir seu nome  
-- Escolher a moeda: Real (BRL), Dólar (USD) ou Euro (EUR)
+- Escolher a moeda:  
+  - Real (BRL)  
+  - Dólar (USD)  
+  - Euro (EUR)
 
 Exemplo de mensagem:
 
@@ -90,15 +128,16 @@ Requisitos mínimos:
 - Buscar preço atual via API  
 - Conversão automática  
 - Text-to-Speech  
-- Funcionar em segundo plano  
+- Funcionamento em segundo plano  
+- Repetição do áudio até desligamento manual  
 
-A implementação técnica fica a critério do desenvolvedor, desde que atenda aos requisitos acima.
+---
 
 2️⃣ Watchtower
 
-Sistema de alerta inteligente de preço.
+Sistema de alerta inteligente de preço do Bitcoin.
 
-Usuário define um valor e recebe alerta quando:
+O usuário define um valor e recebe alerta quando:
 
 - Subir acima de X  
 - Cair abaixo de X  
@@ -108,17 +147,22 @@ Requisitos mínimos:
 - Monitoramento periódico de preço  
 - Notificação push  
 - Alerta sonoro  
+- Funcionamento em segundo plano  
 
 A solução técnica é livre, desde que seja funcional e escalável.
 
-Diretrizes Técnicas
+---
 
-- A tecnologia utilizada pode ser proposta pelo desenvolvedor.
-- A escolha da API de preço pode ser sugerida.
-- O código deve ser organizado e documentado.
-- A experiência do usuário deve ser simples e intuitiva.
+⚙ Diretrizes Técnicas
 
-Como Contribuir
+- A tecnologia utilizada pode ser proposta pelo desenvolvedor  
+- A escolha da API de preço pode ser sugerida  
+- O código deve ser organizado e documentado  
+- A experiência do usuário deve ser simples e intuitiva  
+
+---
+
+🤝 Como Contribuir
 
 1. Faça um fork do projeto  
 2. Crie uma nova branch  
