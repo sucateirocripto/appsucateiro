@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora Sucateiro </title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<!-- PWA -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0a1a33">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Calculadora Sucateiro ">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+
+<style>
+:root{
+  --lata-w:360px;
+  --lata-h:530px;
+  --visor-top:34%;
+  --visor-left:50%;
+  --visor-width:52%;
+}
+*{box-sizing:border-box;scroll-behavior:smooth;}
+html,body{
+  margin:0;
+  height:100%;
+  font-family:'Share Tech Mono',monospace;
+  background:#0a1a33;
+  color:#22ff22;
+  overflow-x:hidden;
+}
+body{
+  display:flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:flex-start;
+  gap:40px;
+  padding-top:40px;
+  position:relative;
+}
+.layer{
+  position:fixed;
+  width:100%; height:100%;
+  top:0; left:0;
+  z-index:0;
+  pointer-events:none;
+}
+.symbol{
+  position:absolute;
+  font-weight:bold;
+  user-select:none;
+}
+.lata{
+  width:var(--lata-w);
+  height:var(--lata-h);
+  position:relative;
+  z-index:10;
+  background:url('22.png') center/contain no-repeat;
+  max-height:90vh;
+}
+.visor{
+  position:absolute;
+  top:var(--visor-top);
+  left:var(--visor-left);
+  transform:translateX(-50%);
+  width:var(--visor-width);
+  background:rgba(6,6,6,0.98);
+  border-radius:20px;
+  padding:14px 8px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:12px;
+  box-shadow:inset 0 0 40px rgba(0,255,70,0.02),0 8px 25px rgba(0,0,0,0.4);
+  z-index:20;
+  transition:all 0.3s ease;
+}
+.row{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px;
+}
+.label{
+  color:#29e429;
+  font-size:14px;
+  opacity:0.95;
+  text-align:center;
+}
+.display{
+  width:88%;
+  border-radius:10px;
+  padding:8px 10px;
+  background:linear-gradient(180deg,rgba(0,0,0,0.45),rgba(0,0,0,0.3));
+  border:1px solid rgba(0,255,0,0.06);
+  box-shadow:inset 0 5px 12px rgba(0,0,0,0.45);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+input.campo,select.campo{
+  width:100%;
+  background:transparent;
+  border:0;
+  outline:0;
+  color:#22ff22;
+  text-align:center;
+  font-family:'Share Tech Mono',monospace;
+  letter-spacing:2px;
+}
+input.campo{font-size:18px;}
+input.campo.small,select.campo{font-size:13px;}
+select.campo{
+  border:1px solid rgba(0,255,0,0.3);
+  border-radius:8px;
+  background:rgba(0,0,0,0.6);
+  padding:6px;
+}
+
+/* === TÍTULOS DESKTOP === */
+.lata#bitcanCalc,
+.lata#fiatCalc { position: relative; }
+.titulo.bitcan,
+.titulo.fiat {
+  position: absolute;
+  top: -30px;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  z-index: 30;
+}
+.titulo.bitcan { color: #29e429; font-size: 22px; }
+.titulo.fiat { color: #ff7a00; font-size: 22px; }
+#resultadoBTC,#resultadoBTC2{color:#ff9d48;}
+
+/* === RODAPÉ === */
+footer {
+  width:100%;
+  text-align:center;
+  padding:20px 0 40px;
+  color:#22ff22;
+  font-size:14px;
+  z-index:50;
+}
+footer .social-icons {
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  margin-top:10px;
+}
+footer .social-icons a {
+  color:#22ff22;
+  font-size:30px;
+  transition:0.3s;
+  text-decoration:none;
+}
+footer .social-icons a:hover {
+  color:#ff7a00;
+  text-shadow:0 0 10px #ff7a00;
+}
+
+/* === Modo Mobile === */
+@media(max-width:768px){
+  html,body{
+    height:auto;
+    overflow-x:hidden;
+    overflow-y:auto;
+    scroll-snap-type:y mandatory;
+  }
+  .lata{
+    width:100%;
+    height:100vh;
+    max-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    scroll-snap-align:start;
+  }
+  body{
+    flex-direction:column;
+    gap:0;
+    padding:40px;
+  }
+
+  .visor{
+    width:75%;
+    top:55%;
+    transform:translate(-50%,-50%);
+    padding:18px 12px;
+    border-radius:24px;
+    box-shadow:inset 0 0 60px rgba(0,255,70,0.07),0 10px 35px rgba(0,0,0,0.55);
+  }
+
+  .titulo.bitcan,
+  .titulo.fiat {
+    top: 5%;
+    font-size: 26px;
+  }
+
+  .label { font-size:17px; }
+  input.campo { font-size:22px; }
+  input.campo.small, select.campo { font-size:18px; }
+  select.campo { padding:8px; }
+  .display { padding:12px; }
+}
+
+/* ===== Estilos do botão/banners PWA ===== */
+#pwa-install-area { width:100%; text-align:center; margin:20px 0; }
+#btnInstallPWA {
+  display:none; padding:10px 16px; border-radius:12px;
+  border:1px solid rgba(34,255,34,.4); background:rgba(10,26,51,.7);
+  color:#22ff22; font-family:'Share Tech Mono',monospace; cursor:pointer;
+  box-shadow:0 4px 14px rgba(0,0,0,.4)
+}
+#iosBanner {
+  display:none; position:fixed; left:16px; right:16px; bottom:16px; z-index:9999;
+  background:rgba(10,26,51,.95); border:1px solid rgba(255,255,255,.12);
+  color:#fff; border-radius:16px; padding:14px; font-size:14px; line-height:1.4;
+}
+#closeIosBanner {
+  margin-left:10px; padding:6px 10px; border-radius:10px;
+  border:1px solid rgba(255,255,255,.2); background:transparent; color:#fff; cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<!-- Fundo animado -->
+<div class="layer" id="layer1"></div>
+<div class="layer" id="layer2"></div>
+<div class="layer" id="layer3"></div>
+
+<!-- BitCan Calculadora -->
+<div class="lata" id="bitcanCalc">
+  <div class="titulo bitcan">♻️ BitCan Calculadora</div>
+  <div class="visor">
+    <div class="row">
+      <span class="label">Preço R$/kg</span>
+      <div class="display"><input id="precoInput" class="campo" inputmode="decimal" value="0.00"></div>
+    </div>
+    <div class="row">
+      <span class="label">Peso das latas (kg)</span>
+      <div class="display"><input id="pesoInput" class="campo" inputmode="decimal" value="0.00"></div>
+    </div>
+    <div class="row">
+      <span class="label">Resultado ₿</span>
+      <div class="display"><input id="resultadoBTC" class="campo small" readonly placeholder="0.00000000 ₿"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Fiat Zero Calculadora -->
+<div class="lata" id="fiatCalc">
+  <div class="titulo fiat">Fiat Zero Calculadora</div>
+  <div class="visor">
+    <div class="row">
+      <span class="label">Digite o valor</span>
+      <div class="display"><input id="valorReais" class="campo" inputmode="decimal" placeholder="0,00" /></div>
+    </div>
+    <div class="row">
+      <span class="label">Selecione a moeda</span>
+      <div class="display">
+        <select id="moeda" class="campo small">
+          <option value="brl">(R$)</option>
+          <option value="usd">(US$)</option>
+          <option value="eur">(€)</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <span class="label">Resultado ₿</span>
+      <div class="display"><input id="resultadoBTC2" class="campo small" readonly placeholder="0.00000000 ₿" /></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== RODAPÉ ===== -->
+<footer>
+  <div class="social-icons">
+    <a href="https://www.instagram.com/sucateirocripto" target="_blank" aria-label="Instagram">
+      <i class="fab fa-instagram"></i>
+    </a>
+    <a href="https://twitter.com/sucateirocripto" target="_blank" aria-label="X (Twitter)">
+      <i class="fab fa-x-twitter"></i>
+    </a>
+  </div>
+
+  <!-- ===== PWA: botão de instalar (Android/Chrome) ===== -->
+  <div id="pwa-install-area">
+    <button id="btnInstallPWA">Instalar aplicativo Calculadora do Sucateiro</button>
+  </div>
+</footer>
+
+<!-- ===== Banner de instrução para iOS ===== -->
+<div id="iosBanner">
+  <strong>Dica:</strong> Para instalar no iPhone/iPad, toque em
+  <span style="white-space:nowrap">Compartilhar ⎘</span> e depois
+  <em>“Adicionar à Tela de Início”</em>.
+  <button id="closeIosBanner">Ok</button>
+</div>
+
+<script>
+// Fundo animado
+function createSoftSymbols(layerId,num){
+  const layer=document.getElementById(layerId);
+  const chars=['₿','♻️'];
+  for(let i=0;i<num;i++){
+    const s=document.createElement('div');
+    s.className='symbol';
+    const char=chars[Math.floor(Math.random()*chars.length)];
+    s.textContent=char;
+    s.style.left=(10 + Math.random()*80)+'%';
+    s.style.top=(10 + Math.random()*80)+'%';
+    s.style.fontSize=(15 + Math.random()*15)+'px';
+    s.style.color=(char==='₿')?'rgba(255,153,0,0.3)':'rgba(0,255,51,0.3)';
+    s.style.animationDuration=(6 + Math.random()*5)+'s';
+    s.style.animationName='floatXY';
+    s.style.animationIterationCount='infinite';
+    s.style.animationDirection='alternate';
+    layer.appendChild(s);
+  }
+}
+const style=document.createElement('style');
+style.innerHTML=`@keyframes floatXY {
+  0% {transform: translate(0px,0px);}
+  25% {transform: translate(5px,-3px);}
+  50% {transform: translate(-5px,4px);}
+  75% {transform: translate(3px,-2px);}
+  100% {transform: translate(0px,0px);}
+}`;
+document.head.appendChild(style);
+createSoftSymbols('layer1',5);
+createSoftSymbols('layer2',5);
+createSoftSymbols('layer3',5);
+
+// BitCan
+function parseNum(str){ return parseFloat(String(str).replace(',', '.')); }
+function formatBTC(v){ return v.toFixed(8)+' ₿'; }
+const precoEl=document.getElementById('precoInput');
+const pesoEl=document.getElementById('pesoInput');
+const btcEl=document.getElementById('resultadoBTC');
+async function atualizarValores() {
+  const preco=parseNum(precoEl.value);
+  const peso=parseNum(pesoEl.value);
+  if(isNaN(preco)||preco<=0||isNaN(peso)||peso<=0){ btcEl.value=''; return;}
+  const total=preco*peso;
+  try{
+    const r=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=brl');
+    const j=await r.json();
+    btcEl.value=formatBTC(total/j.bitcoin.brl);
+  }catch(e){btcEl.value="Erro na cotação";}
+}
+precoEl.addEventListener('input', atualizarValores);
+pesoEl.addEventListener('input', atualizarValores);
+precoEl.addEventListener('focus', ()=>{ precoEl.value=''; });
+pesoEl.addEventListener('focus', ()=>{ pesoEl.value=''; });
+
+// Fiat Zero
+const valorEl=document.getElementById('valorReais');
+const btcEl2=document.getElementById('resultadoBTC2');
+const moedaEl=document.getElementById('moeda');
+function formatNumberInput(value){
+  value=value.replace(/\D/g,'');
+  let intValue=parseInt(value,10);
+  if(isNaN(intValue))intValue=0;
+  return (intValue/100).toLocaleString('pt-BR',{minimumFractionDigits:2, maximumFractionDigits:2});
+}
+function getNumericValue(str){return Number(str.replace(/\./g,'').replace(',','.')); }
+async function atualizarBTC(){
+  const valor=getNumericValue(valorEl.value);
+  if(isNaN(valor)||valor<=0){btcEl2.value="0.00000000 ₿"; return;}
+  const moedaSelecionada=moedaEl.value;
+  try{
+    const r=await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=${moedaSelecionada}`);
+    const j=await r.json();
+    btcEl2.value=formatBTC(valor/j.bitcoin[moedaSelecionada]);
+  }catch(e){btcEl2.value="Erro ao buscar ₿";}
+}
+valorEl.addEventListener('input', ()=>{valorEl.value=formatNumberInput(valorEl.value); atualizarBTC();});
+moedaEl.addEventListener('change', atualizarBTC);
+
+// PWA: registro e prompts
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(console.error);
+  });
+}
+
+let deferredPrompt;
+const installBtn = document.getElementById('btnInstallPWA');
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  if (installBtn) installBtn.style.display = 'inline-block';
+});
+installBtn?.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  installBtn.style.display = 'none';
+});
+function isStandalone() {
+  return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches)
+      || (navigator.standalone === true);
+}
+if (isStandalone()) { installBtn && (installBtn.style.display = 'none'); }
+function isIosSafari() {
+  const ua = window.navigator.userAgent.toLowerCase();
+  const isIos = /iphone|ipad|ipod/.test(ua);
+  const isSafari = /^((?!chrome|android).)*safari/.test(ua);
+  return isIos && isSafari;
+}
+const iosBanner = document.getElementById('iosBanner');
+const closeIosBanner = document.getElementById('closeIosBanner');
+if (isIosSafari() && !isStandalone()) {
+  iosBanner.style.display = 'block';
+}
+closeIosBanner?.addEventListener('click', () => {
+  iosBanner.style.display = 'none';
+});
+window.matchMedia('(display-mode: standalone)').addEventListener('change', (e) => {
+  if (e.matches) {
+    iosBanner && (iosBanner.style.display = 'none');
+    installBtn && (installBtn.style.display = 'none');
+  }
+});
+</script>
+</body>
+</html>
